@@ -1,5 +1,7 @@
 package com.b127.dev.cvclassifier.controllers;
 
+import com.b127.dev.cvclassifier.services.ResumeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,29 +17,26 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Controller
-public class FileUploadingController {
+@RequestMapping("cv-classifier")
+@RequiredArgsConstructor
+public class ResumeController {
 
-    private final String UPLOAD_DIR = "./uploads/";
+    private final ResumeService resumeService;
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes) {
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String name, RedirectAttributes attributes) {
 
         if (file.isEmpty()) {
             attributes.addFlashAttribute("message", "Please select a file to upload.");
-            return "redirect:/";
+            return "redirect:/cv-classifier";
         }
 
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-
-        try {
-            Path path = Paths.get(UPLOAD_DIR + fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(resumeService.uploadResume(file, name)) {
+            attributes.addFlashAttribute("message", "You have successfully uploaded !");
+        } else {
+            attributes.addFlashAttribute("message", "File upload failed. Retry !");
         }
 
-        attributes.addFlashAttribute("message", "You successfully uploaded " + fileName + '!');
-
-        return "redirect:/";
+        return "redirect:/cv-classifier";
     }
 }
