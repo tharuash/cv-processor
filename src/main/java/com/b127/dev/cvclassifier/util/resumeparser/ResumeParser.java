@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,10 +73,13 @@ public class ResumeParser {
             AnnotationSet defaultAnnotSet = doc.getAnnotations();
 
             String education = parseSectionHeading("education_and_training", defaultAnnotSet, doc);
+            if (education != null) education = education.trim();
 
             String experience = parseSectionHeading("work_experience", defaultAnnotSet, doc);
+            if (experience != null) experience = experience.trim();
 
             String skills = parseSectionHeading("skills", defaultAnnotSet, doc);
+            if (skills != null) skills = skills.trim();
 
             String s = readFile(path);
 
@@ -87,7 +91,7 @@ public class ResumeParser {
             String email = getUsingRegexp(RegExPattern.EMAIL.getValue(), s);
             if (email == null) email = parseAnnSectionSingleRes("EmailFinder", defaultAnnotSet, doc);
 
-            resume = new Resume(0L, null, email, path, city, phone, education, experience, skills);
+            resume = new Resume(0L, null, email, path, city, phone, education, experience, skills, LocalDateTime.now());
 
         }
         return resume;

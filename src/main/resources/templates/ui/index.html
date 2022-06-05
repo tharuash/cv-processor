@@ -74,44 +74,38 @@
             <h2>Uploaded Resumes</h2>
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Andrew McKay</h4>
-                    <!--h6 class="text-muted card-subtitle mb-2">Subtitle</h6-->
-                    <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
-                    <a class="card-link btn btn-primary" href="#">Get Details</a>
-                    <hr/>
-                    <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
-
-
+                    <div class="row" th:if="${candidates ne null}" th:each="candidate: ${candidates}">
+                        <div class="col-md-9">
+                            <h4 class="card-title" th:text="${candidate.name}"></h4>
+                            <h6 class="text-muted card-subtitle mb-2">Uploaded At <span th:text="${candidate.resumeUploadedTimestamp}"></span> </h6>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="card-link btn btn-primary float-end" th:href="@{'/?id=' + ${candidate.resumeId}}">Get Details</a>
+                        </div>
+                        <hr/>
+                    </div>
                     <!--a class="card-link" href="#">Link</a-->
                 </div>
             </div>
-            <div class="card">
+            <!--div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Andrew McKay</h4>
-                    <!--h6 class="text-muted card-subtitle mb-2">Subtitle</h6-->
+                    <h6 class="text-muted card-subtitle mb-2">Subtitle</h6>
                     <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
                     <a class="card-link btn btn-primary" href="#">Get Details</a>
-                    <!--a class="card-link" href="#">Link</a-->
+                    <a class="card-link" href="#">Link</a>
                 </div>
-            </div>
+            </div-->
         </div>
 
         <div class="col-md-6">
             <h2>Resume Details</h2>
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Personal Details</h5>
+                    <h5 class="mb-0">Experience</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Skills</h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
+                    <p class="card-text" th:if="${resume ne null}" th:text="${resume.experience}"></p>
                 </div>
             </div>
             <div class="card">
@@ -119,7 +113,15 @@
                     <h5 class="mb-0">Education</h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
+                    <p class="card-text" th:if="${resume ne null}" th:text="${resume.education}"></p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Skills</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text" th:if="${resume ne null}" th:text="${resume.skills}"></p>
                 </div>
             </div>
         </div>
