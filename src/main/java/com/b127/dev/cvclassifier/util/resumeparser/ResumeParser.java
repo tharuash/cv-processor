@@ -86,10 +86,10 @@ public class ResumeParser {
             City city = getLocationOfCandidate(s);
 
             String phone = getUsingRegexp(RegExPattern.PHONE.getValue(), s);
-            if (phone == null) phone = parseAnnSectionSingleRes("PhoneFinder", defaultAnnotSet, doc);
+            if (!phone.equals("Not Found")) phone = parseAnnSectionSingleRes("PhoneFinder", defaultAnnotSet, doc);
 
             String email = getUsingRegexp(RegExPattern.EMAIL.getValue(), s);
-            if (email == null) email = parseAnnSectionSingleRes("EmailFinder", defaultAnnotSet, doc);
+            if (!email.equals("Not Found")) email = parseAnnSectionSingleRes("EmailFinder", defaultAnnotSet, doc);
 
             resume = new Resume(0L, null, email, path, city, phone, education, experience, skills, LocalDateTime.now());
 
@@ -103,7 +103,7 @@ public class ResumeParser {
         if (matcher.find()) {
             return matcher.group(0);
         }
-        return null;
+        return "Not Found";
     }
 
 
@@ -117,7 +117,7 @@ public class ResumeParser {
                 city = any.get();
             }
         }
-        return city;
+        return city != null ? city : City.NOT_FOUND;
     }
 
     private List<Map<String, String>> parseSectionHeadingWithMultipleSubSections(String section, AnnotationSet defaultAnnotSet, Document doc) {
@@ -157,7 +157,7 @@ public class ResumeParser {
                 return value;
             }
         }
-        return null;
+        return "Not Found";
     }
 
     private List<String> parseAnnSection(String annSection, AnnotationSet defaultAnnotSet, Document doc) {
@@ -192,7 +192,7 @@ public class ResumeParser {
                 return s;
             }
         }
-        return null;
+        return "Not Found";
     }
 
     private String readFile(String path) {

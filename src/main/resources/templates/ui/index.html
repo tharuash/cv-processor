@@ -120,8 +120,10 @@
                 <div class="card-header">
                     <h5 class="mb-0">Skills</h5>
                 </div>
-                <div class="card-body">
-                    <p class="card-text" th:if="${resume ne null}" th:text="${resume.skills}"></p>
+                <div class="card-body" th:if="${resume ne null}">
+                    <!--p class="card-text" th:if="${resume ne null}" th:text="${resume.skills}"></p-->
+                    <span class="badge badge-primary bg-dark mx-1 my-1" style="font-size:15px"  th:each="skill: ${resume.skills}" th:text="${skill}"></span>
+
                 </div>
             </div>
         </div>

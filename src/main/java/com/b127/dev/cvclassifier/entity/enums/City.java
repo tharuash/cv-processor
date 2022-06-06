@@ -6,7 +6,8 @@ public enum City {
     KURUNEGALA("Kurunegala"),
     POLGAHAWELA("Polgahawela"),
     KANDY("Kandy"),
-    GALLE("Galle");
+    GALLE("Galle"),
+    NOT_FOUND("Not Found");
     final private String value;
     City(String name) {
         value = name;

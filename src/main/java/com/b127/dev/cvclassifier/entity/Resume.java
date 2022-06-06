@@ -34,7 +34,7 @@ public class Resume {
     @NotBlank @NotEmpty
     private String name;
 
-    @Email
+    @NotEmpty
     @NotNull
     private String email;
 

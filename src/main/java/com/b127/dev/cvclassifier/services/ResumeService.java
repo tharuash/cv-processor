@@ -1,6 +1,8 @@
 package com.b127.dev.cvclassifier.services;
 
 import com.b127.dev.cvclassifier.dto.CandidateDTO;
+import com.b127.dev.cvclassifier.dto.ResumeDTO;
+import com.b127.dev.cvclassifier.dto.mappers.ResumeDTOMapper;
 import com.b127.dev.cvclassifier.entity.Resume;
 import com.b127.dev.cvclassifier.repos.ResumeRepository;
 import com.b127.dev.cvclassifier.util.resumeparser.ResumeParser;
@@ -23,6 +25,7 @@ public class ResumeService {
 
     private final ResumeRepository resumeRepository;
     private final ResumeParser resumeParser;
+    private final ResumeDTOMapper resumeDTOMapper;
 
     private final String UPLOAD_DIR = "./uploads/";
 
@@ -52,8 +55,9 @@ public class ResumeService {
         return resumeRepository.getAllCandidateDetailsSorted();
     }
 
-    public Resume getExpandedResumeById(Long id) {
-        return resumeRepository.findById(id).orElseThrow(() -> new RuntimeException("No resume for given Id"));
+    public ResumeDTO getExpandedResumeById(Long id) {
+        Resume resume = resumeRepository.findById(id).orElseThrow(() -> new RuntimeException("No resume for given Id"));
+        return resumeDTOMapper.mapIntoResumeDTO(resume);
     }
 
 
