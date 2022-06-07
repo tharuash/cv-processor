@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(value = {"", "cv-classifier"})
@@ -16,13 +18,18 @@ public class DashboardViewController {
     private final ResumeService resumeService;
 
     @GetMapping
-    public ModelAndView index(@RequestParam(value = "id", required = false) Long resumeId) {
+    public ModelAndView index(@RequestParam(value = "id", required = false) Long resumeId, HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("ui/index");
         modelAndView.addObject("candidates", resumeService.getCandidatesDetails());
 
         if(resumeId != null) {
-            modelAndView.addObject("resume", resumeService.getExpandedResumeById(resumeId));
+            try {
+                modelAndView.addObject("resume", resumeService.getExpandedResumeById(resumeId));
+            } catch (RuntimeException ex) {
+                modelAndView.addObject("error" ,"No resume presented for selected candidate");
+            }
+
         }
         return modelAndView;
     }
