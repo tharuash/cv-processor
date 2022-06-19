@@ -60,6 +60,10 @@ public class ResumeService {
         return resumeDTOMapper.mapIntoResumeDTO(resume);
     }
 
+    public List<CandidateDTO> getCandidatesDetailsBySkill(String skill) {
+        return resumeRepository.getCandidateDetailsFilteredBySkill(skill);
+    }
+
 
 
 }

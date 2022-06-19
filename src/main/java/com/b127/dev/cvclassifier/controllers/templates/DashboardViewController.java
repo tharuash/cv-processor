@@ -18,10 +18,10 @@ public class DashboardViewController {
     private final ResumeService resumeService;
 
     @GetMapping
-    public ModelAndView index(@RequestParam(value = "id", required = false) Long resumeId, HttpSession httpSession) {
+    public ModelAndView index(@RequestParam(value = "id", required = false) Long resumeId, @RequestParam(value = "keyword", required = false) String skill) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("ui/index");
-        modelAndView.addObject("candidates", resumeService.getCandidatesDetails());
+
 
         if(resumeId != null) {
             try {
@@ -29,7 +29,12 @@ public class DashboardViewController {
             } catch (RuntimeException ex) {
                 modelAndView.addObject("error" ,"No resume presented for selected candidate");
             }
+        }
 
+        if(skill != null ) {
+            modelAndView.addObject("candidates", resumeService.getCandidatesDetailsBySkill(skill));
+        } else {
+            modelAndView.addObject("candidates", resumeService.getCandidatesDetails());
         }
         return modelAndView;
     }

@@ -13,10 +13,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@NamedNativeQuery(name = "Resume.getAllCandidateDetailsSorted",
-                  query = "SELECT r.id as resumeId, r.name, r.uploaded_time as dateTime" +
-                          " FROM resumes r ORDER BY r.uploaded_time DESC",
-                  resultSetMapping = "Mapping.CandidateDTO")
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "Resume.getAllCandidateDetailsSorted",
+                query = "SELECT r.id as resumeId, r.name, r.uploaded_time as dateTime" +
+                        " FROM resumes r ORDER BY r.uploaded_time DESC",
+                resultSetMapping = "Mapping.CandidateDTO"),
+        @NamedNativeQuery(name = "Resume.getCandidateDetailsFilteredBySkill",
+                query = "SELECT r.id as resumeId, r.name, r.uploaded_time as dateTime" +
+                        " FROM resumes r WHERE LOWER(r.skills) like LOWER(CONCAT( '%', ?1, '%' )) ORDER BY r.uploaded_time DESC",
+                resultSetMapping = "Mapping.CandidateDTO")
+})
 @SqlResultSetMapping(name = "Mapping.CandidateDTO",
                      classes = @ConstructorResult(targetClass = CandidateDTO.class,
                                                   columns = {@ColumnResult(name = "resumeId", type = Long.class),
