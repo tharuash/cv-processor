@@ -128,6 +128,7 @@
                     <h5 class="mb-0">Education</h5>
                 </div>
                 <div class="card-body">
+                    <div id="edu-level"></div>
                     <p class="card-text" id="education"></p>
                 </div>
             </div>
@@ -166,6 +167,15 @@
                 console.log(result);
 
                 $('#experience').text(result.experience)
+
+                var educationTags = ""
+
+                for(let i = 0; i < result.analyzedEducationDTOS.length; i++) {
+                    educationTags += `<span class="badge badge-primary bg-dark mx-1 my-1" style="font-size:15px">
+                        ${result.analyzedEducationDTOS[i].level} :  ${result.analyzedEducationDTOS[i].years} years</span>`
+                }
+
+                $('#edu-level').prepend(educationTags)
                 $('#education').text(result.education)
 
                 var skillTags = ""

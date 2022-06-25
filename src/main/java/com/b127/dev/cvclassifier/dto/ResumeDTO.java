@@ -17,5 +17,6 @@ public class ResumeDTO {
     private String education;
     private String experience;
     private List<String> skills;
+    private List<AnalyzedEducationDTO> analyzedEducationDTOS;
 
 }
