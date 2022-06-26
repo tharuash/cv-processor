@@ -3,12 +3,10 @@ package com.b127.dev.cvclassifier.controllers.rest;
 import com.b127.dev.cvclassifier.dto.ResumeDTO;
 import com.b127.dev.cvclassifier.services.ResumeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import lombok.extern.slf4j.Slf4j;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Slf4j
 @RestController
 @RequestMapping("api/cv-classifier")
