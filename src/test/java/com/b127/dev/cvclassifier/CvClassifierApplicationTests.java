@@ -28,31 +28,15 @@ class CvClassifierApplicationTests {
 
 	@Test
 	void contextLoads() {
-		String edu = "[2017 – 2022]" +
-				"Grade achieved: Degree : Bsc Engineering University of Ruhuna" +
-				"2nd upper" +
-				"[2013 – 2015]" +
-				"Grade achieved: A/L" +
-				"AAB";
-		List<Integer> years = new ArrayList<>();
-		Pattern p = Pattern.compile("20[0-2][0-9]");
-		Matcher m = p.matcher(edu);
-		while(m.find()) {
-			years.add(Integer.parseInt(m.group()));
-		}
+		String patterns = "^(?:0|94|\\+94|0094)?(?:(11|21|23|24|25|26|27|31|32|33|34|35|36|37|38|41|45|47|51|52|54|55|57|63|65|66|67|81|91)(0|2|3|4|5|7|9)|7(0|1|2|4|5|6|7|8)\\d)\\d{6}$";
 
-		System.out.println(years.toString());
-		for(int i = years.size() - 1; i > 0; i -= 2) {
-
-			int yearGap = years.get(i) - years.get(i - 1);
-
-			if(yearGap == 2 && edu.toLowerCase().contains("diploma")) {
-				System.out.println("Diploma : 2 years");
-			} else if ( yearGap > 3  && edu.toLowerCase().contains("degree")) {
-				System.out.println("Degree : " + yearGap + " years");
-			} else {
-				System.out.println("Can't extract the education details");
-			}
+		Pattern pattern = Pattern.compile(patterns);
+		Matcher matcher = pattern.matcher(".f@sliit.lkEXTRACURRICULARACTIVITIESParticipatedtoInterSchooldivisionalchesscompetitionin2009MemberofSchoolChessTeamVishakaGirls'HighSchool,Badulla\n" +
+				"PRASADINIRATHNAYAKEUNDERGRADUATEEXECUTIVESUMMARYHighlymotivatedundergraduatewithastrongfoundationinprogrammingprinciplesandaproficientinavarietyofplatforms,languages,withaninnateabilitytolearnandmasternewtechnologiesSKILLSJavaJavaScriptHTML/CSSPythonMySQLHOWTOCONTACTMEAddress:No111,Bokanoruwa,Galauda,HaliEla,BadullaPhone:+94705888539Email:rathnayakeprasadini@gmail");
+		if (matcher.find()) {
+			System.out.println(matcher.group(0));
+		} else {
+			System.out.println("No match");
 		}
 
 		assertEquals(1, 1);

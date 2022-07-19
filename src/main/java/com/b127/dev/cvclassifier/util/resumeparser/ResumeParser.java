@@ -86,10 +86,10 @@ public class ResumeParser {
             City city = getLocationOfCandidate(s);
 
             String phone = getUsingRegexp(RegExPattern.PHONE.getValue(), s);
-            if (!phone.equals("Not Found")) phone = parseAnnSectionSingleRes("PhoneFinder", defaultAnnotSet, doc);
+            if (phone.equals("Not Found")) phone = parseAnnSectionSingleRes("PhoneFinder", defaultAnnotSet, doc);
 
             String email = getUsingRegexp(RegExPattern.EMAIL.getValue(), s);
-            if (!email.equals("Not Found")) email = parseAnnSectionSingleRes("EmailFinder", defaultAnnotSet, doc);
+            if (email.equals("Not Found")) email = parseAnnSectionSingleRes("EmailFinder", defaultAnnotSet, doc);
 
             resume = new Resume(0L, null, email, path, city, phone, education, experience, skills, LocalDateTime.now());
 
@@ -98,12 +98,15 @@ public class ResumeParser {
     }
 
     private String getUsingRegexp(String patterns, String s) {
+        s = s.replaceAll("\\s+", "");
         Pattern pattern = Pattern.compile(patterns);
         Matcher matcher = pattern.matcher(s);
         if (matcher.find()) {
             return matcher.group(0);
+        } else {
+            return "Not Found";
         }
-        return "Not Found";
+
     }
 
 

@@ -117,12 +117,31 @@
             <h2>Resume Details</h2>
             <div class="card">
                 <div class="card-header">
+                    <h5 class="mb-0">Personal Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="card-text font-weight-bold" style="font-weight:bold">Contact No</p>
+                            <p class="card-text font-weight-bold" style="font-weight:bold">Email</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="card-text" id="phone"></p>
+                            <p class="card-text" id="email"></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
                     <h5 class="mb-0">Experience</h5>
                 </div>
                 <div class="card-body">
                     <p class="card-text" id="experience"></p>
                 </div>
             </div>
+
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">Education</h5>
@@ -165,6 +184,12 @@
             accept : "application/json",
             success: function(result){
                 console.log(result);
+
+                $('#phone').empty()
+                $('#phone').text(result.phone)
+
+                $('#email').empty()
+                $('#email').text(result.email)
 
                 $('#experience').empty()
                 $('#experience').text(result.experience)
