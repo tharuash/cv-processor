@@ -166,6 +166,7 @@
             success: function(result){
                 console.log(result);
 
+                $('#experience').empty()
                 $('#experience').text(result.experience)
 
                 var educationTags = ""
@@ -175,7 +176,10 @@
                         ${result.analyzedEducationDTOS[i].level} :  ${result.analyzedEducationDTOS[i].years} years</span>`
                 }
 
+                $('#edu-level').empty()
                 $('#edu-level').prepend(educationTags)
+
+                $('#education').empty()
                 $('#education').text(result.education)
 
                 var skillTags = ""
@@ -184,6 +188,7 @@
                     skillTags += `<span class="badge badge-primary bg-dark mx-1 my-1" style="font-size:15px">${result.skills[i]}</span>`
                 }
 
+                $('#skills').empty()
                 $('#skills').prepend(skillTags)
 
             },
