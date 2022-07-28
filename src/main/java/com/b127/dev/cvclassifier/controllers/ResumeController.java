@@ -25,14 +25,14 @@ public class ResumeController {
     private final ResumeService resumeService;
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
+    public String uploadFile(@RequestParam("file") MultipartFile[] files, @RequestParam("name") String name,
                              RedirectAttributes attributes, HttpSession httpSession) {
-        if (file.isEmpty()) {
+        if (files.length == 0) {
             attributes.addFlashAttribute("error", "Please select a file to upload.");
             return "redirect:/cv-classifier";
         }
 
-        if(resumeService.uploadResume(file, name)) {
+        if(resumeService.uploadResume(files, name)) {
             attributes.addFlashAttribute("message", "You have successfully uploaded !");
         } else {
             attributes.addFlashAttribute("error", "File upload failed. Retry !");

@@ -54,7 +54,7 @@
                 </div>
                 <div class="col-md-5">
                     <label for="file">Candidate Resume</label>
-                    <input type="file" name="file" id="file" class="form-control" required>
+                    <input type="file" name="file" id="file" class="form-control" webkitdirectory mozdirectoryv required>
 
                 </div>
                 <div class="col-md-2">
@@ -102,7 +102,7 @@
                                     th:text="${candidate.resumeUploadedTimestamp}"></span></h6>
                         </div>
                         <div class="col-md-3">
-                            <button class="card-link btn btn-primary float-end" id="btn-resume-details">
+                            <button class="card-link btn btn-primary float-end jq-class" id="btn-resume-details">
                                 <span style="display:none" th:text="${candidate.resumeId}"></span>
                                 Get Details</button>
                         </div>
@@ -175,8 +175,9 @@
 <script type="text/javascript">
     console.log("ABC")
 
-    $('#btn-resume-details').click(function() {
+    $(document).on('click', '.jq-class', function(e) {
         var resumeId = $(this).children('span').text();
+        console.log(resumeId)
 
         $.ajax({
             url: "http://localhost:8081/api/cv-classifier/" + resumeId,
@@ -224,7 +225,14 @@
                 $('#api-error').css({'display' : 'block'})
             }
         })
-    })
+
+    });
+
+    /* $('#btn-resume-details').click(function() {
+        var resumeId = $(this).children('span').text();
+
+
+    }) */
 
 </script>
 

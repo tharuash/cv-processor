@@ -17,7 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -29,26 +31,33 @@ public class ResumeService {
 
     private final String UPLOAD_DIR = "./uploads/";
 
-    public boolean uploadResume(MultipartFile file, String candidateName) {
+    public boolean uploadResume(MultipartFile[] files, String candidateName) {
+        var wrapper = new Object(){ boolean ifAnyFileFailedToUpdate = false; };
 
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Arrays.asList(files).forEach(file -> {
+            String[] filePathParts = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename())).split("/");
+            String fileName = filePathParts[filePathParts.length - 1];
 
-        try {
-            Path path = Paths.get(UPLOAD_DIR + fileName);
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println(fileName);
+            try{
+                Path path = Paths.get(UPLOAD_DIR + fileName);
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-            Resume resume = resumeParser.parseUsingGateAndAnnie(path.toAbsolutePath().normalize().toString());
-            resume.setName(candidateName);
-            resume.setDocumentPath(path.toAbsolutePath().normalize().toString());
+                Resume resume = resumeParser.parseUsingGateAndAnnie(path.toAbsolutePath().normalize().toString());
+                resume.setName(candidateName);
+                resume.setDocumentPath(path.toAbsolutePath().normalize().toString());
 
-            resumeRepository.save(resume);
+                resumeRepository.save(resume);
 
-            return true;
-        } catch (IOException | GateException e ) {
-            e.printStackTrace();
+            }catch (IOException | GateException e ) {
+                e.printStackTrace();
+                wrapper.ifAnyFileFailedToUpdate = true;
+            }
 
-            return false;
-        }
+        });
+
+        return !wrapper.ifAnyFileFailedToUpdate;
+
     }
 
     public List<CandidateDTO> getCandidatesDetails() {
